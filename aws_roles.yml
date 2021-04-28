@@ -1,0 +1,25 @@
+---
+- name: Create a instance
+  hosts: localhost
+  vars:
+    keypair: AnsKeyPair
+    instance_type: t2.micro
+    security_group: AnsSecGroup
+    image: ami-08962a4068733a2b6
+    region: us-east-2
+  tasks:
+    - name: Launch instance
+      amazon.aws.ec2:
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        region: "{{ region }}"
+        assign_public_ip: yes
+        count_tag:
+          Name: build_server
+        exact_count: 1
+        count_tag:
+          Name: prod_server
+        exact_count: 1
+      register: ec2
