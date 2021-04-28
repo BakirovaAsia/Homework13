@@ -18,10 +18,14 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
+        instance_tags: 
+          Name: build_server
+          exact_count: 1
         count_tag:
           Name: build_server
-        exact_count: 1
+        instance_tags: 
+          Name: prod_server
+          exact_count: 1
         count_tag:
           Name: prod_server
-        exact_count: 1
       register: ec2
