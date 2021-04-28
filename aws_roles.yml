@@ -21,6 +21,8 @@
         instance_tags: 
           Name: build_server
         exact_count: 1
+        count_tag: 
+          Name: build_server
       register: ec2
     - name: Add new instance to host group
       add_host:
@@ -50,6 +52,8 @@
         instance_tags: 
           Name: deploy_host
         exact_count: 1
+        count_tag: 
+          Name: deploy_host
       register: ec2
     - name: Add new instance to host group
       add_host:
