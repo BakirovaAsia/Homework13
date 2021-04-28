@@ -7,6 +7,7 @@
     security_group: AnsSecGroup
     image: ami-08962a4068733a2b6
     region: us-east-2
+    subnet_id: vpc-fe1f8b95
   tasks:
     - name: Launch instance
       amazon.aws.ec2:
@@ -15,6 +16,7 @@
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
         region: "{{ region }}"
+        vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
         count_tag:
           Name: build_server
