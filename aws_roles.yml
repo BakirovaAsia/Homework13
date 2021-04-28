@@ -16,18 +16,18 @@
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
         region: "{{ region }}"
-        vpc_subnet_id: "{{ subnet_id }}"
-        assign_public_ip: yes
         instance_tags: 
           Name: build_server
         exact_count: 1
         count_tag: 
           Name: build_server
+        vpc_subnet_id: "{{ subnet_id }}"
+        assign_public_ip: yes
       register: ec2
     - name: Add new instance to host group
       add_host:
-        hostname: "{{ item.public_ip }}"
-        groupname: build_host
+        hostname: "{{ item.private_ip }}"
+        groupname: "build_host"
       loop: "{{ ec2.instances }}"
 
 - name: Create a instance for deploying
@@ -57,8 +57,8 @@
       register: ec2
     - name: Add new instance to host group
       add_host:
-        hostname: "{{ item.public_ip }}"
-        groupname: deploy_host
+        hostname: "{{ item.private_ip }}"
+        groupname: "deploy_host"
       loop: "{{ ec2.instances }}"    
 
 - name: Build-server configuration
