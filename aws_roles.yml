@@ -1,5 +1,5 @@
 ---
-- name: Create a instance
+- name: Create a instance for building
   hosts: localhost
   vars:
     keypair: AnsKeyPair
@@ -20,12 +20,57 @@
         assign_public_ip: yes
         instance_tags: 
           Name: build_server
-          exact_count: 1
-        count_tag:
-          Name: build_server
-        instance_tags: 
-          Name: prod_server
-          exact_count: 1
-        count_tag:
-          Name: prod_server
+        exact_count: 1
       register: ec2
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: build_host
+      loop: "{{ ec2.instances }}"
+
+- name: Create a instance for deploying
+  hosts: localhost
+  vars:
+    keypair: AnsKeyPair
+    instance_type: t2.micro
+    security_group: AnsSecGroup
+    image: ami-08962a4068733a2b6
+    region: us-east-2
+    subnet_id: subnet-5bfb4430
+  tasks:
+    - name: Launch instance
+      amazon.aws.ec2:
+        key_name: "{{ keypair }}"
+        group: "{{ security_group }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ image }}"
+        region: "{{ region }}"
+        vpc_subnet_id: "{{ subnet_id }}"
+        assign_public_ip: yes
+        instance_tags: 
+          Name: deploy_host
+        exact_count: 1
+      register: ec2
+    - name: Add new instance to host group
+      add_host:
+        hostname: "{{ item.public_ip }}"
+        groupname: deploy_host
+      loop: "{{ ec2.instances }}"    
+
+- name: Build-server configuration
+  hosts: build_host
+  become: yes
+  vars_files: 
+    - vars.yml
+
+  roles: 
+    - docker
+    - builder
+
+- name: Web-server configuration
+  hosts: deploy_host
+  become: yes
+
+  roles:
+    - docker
+    - deployer      
