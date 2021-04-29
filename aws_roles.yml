@@ -90,6 +90,7 @@
   vars_files: 
     - vars.yml
   vars:
+    key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
   
   roles: 
@@ -100,6 +101,7 @@
   hosts: deploy_host
   become: yes
   vars:
+    key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
 
   roles:
