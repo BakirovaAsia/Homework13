@@ -25,7 +25,7 @@
 
     - name: Launch instance
       amazon.aws.ec2:
-        key_name: "{{ keypair }}"
+        key_name: "{{ key_inst }}"
         group: "{{ security_group }}"
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
@@ -61,7 +61,7 @@
   tasks:
     - name: Launch instance
       amazon.aws.ec2:
-        key_name: "{{ keypair }}"
+        key_name: "{{ key_inst }}"
         group: "{{ security_group }}"
         instance_type: "{{ instance_type }}"
         image: "{{ image }}"
