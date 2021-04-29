@@ -28,7 +28,7 @@
     - name: Add new instance to /etc/ansible/hosts
       lineinfile:
         path: /etc/ansible/hosts
-        line: " [build_host] {{ item.public_ip }} "
+        line: " {{ item.public_ip }} "
       loop: "{{ ec2.instances }}"
 
 
