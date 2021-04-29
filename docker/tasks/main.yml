@@ -1,11 +1,5 @@
 ---
 # tasks file for docker
-- name: Set authorized key taken from file
-  authorized_key:
-    user: admin
-    state: present
-    key: "{{ lookup('file', '/home/admin/.ssh/id_rsa.pub') }}"
-
 - name: Ensure docker is install
   apt: 
     name: docker.io

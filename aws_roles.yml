@@ -71,7 +71,12 @@
   become: yes
   vars_files: 
     - vars.yml
-
+  tasks:
+    - name: Set authorized key taken from file
+      authorized_key:
+        user: admin
+        state: present
+        key: "{{ lookup('file', '/home/admin/.ssh/id_rsa.pub') }}"
   roles: 
     - docker
     - builder
