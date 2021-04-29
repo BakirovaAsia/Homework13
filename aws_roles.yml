@@ -8,7 +8,17 @@
     image: ami-08962a4068733a2b6
     region: us-east-2
     subnet_id: subnet-308dd07c
+    key_name: InstanceKey
   tasks:
+    - name: Create a new EC2 key pair for Staging and Production environments
+      ec2_key:
+        name: "{{ key_name }}"
+        region: "{{ region }}"
+      register: ec2_key
+
+    - name: Save private key
+      copy: content="{{ ec2_key.key.private_key }}" dest="./keys/{{ key_name }}.pem" mode=0600
+
     - name: Launch instance
       amazon.aws.ec2:
         key_name: "{{ keypair }}"
@@ -61,6 +71,10 @@
           exact_count: 1
         wait: yes
       register: ec2
+
+
+
+
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
