@@ -75,6 +75,7 @@
           Name: deploy_server
           exact_count: 1
         wait: yes
+        wait_timeout: 600
       register: ec2
 
     - name: Add new instance to host group
@@ -97,7 +98,7 @@
   roles: 
     - docker
     - builder
-    
+
 - name: Web-server configuration
   hosts: deploy_host
   become: yes
