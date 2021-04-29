@@ -25,9 +25,12 @@
           Name: build_server
       register: ec2
 
-    - name: Show ec2.instances
-      shell: echo {{ item }} 
+    - name: Add new instance to /etc/ansible/hosts
+      lineinfile:
+        path: /etc/ansible/hosts
+        line: " [build_host] {{ item.public_ip }} "
       loop: "{{ ec2.instances }}"
+
 
     - name: Add new instance to host group
       add_host:
