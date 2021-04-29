@@ -24,6 +24,7 @@
         count_tag: 
           Name: build_server
           exact_count: 1
+        wait: yes
       register: ec2
 
     - name: Add new instance to host group
@@ -57,6 +58,7 @@
         count_tag: 
           Name: deploy_server
           exact_count: 1
+        wait: yes
       register: ec2
     - name: Add new instance to host group
       add_host:
