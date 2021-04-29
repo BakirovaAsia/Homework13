@@ -8,5 +8,5 @@
 
 - name: Ensure docker is install
   pip: 
-    name: python-docker
+    name: docker
     state: present
