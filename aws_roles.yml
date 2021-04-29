@@ -26,13 +26,6 @@
           exact_count: 1
       register: ec2
 
-    - name: Add new instance to /etc/ansible/hosts
-      lineinfile:
-        path: /etc/ansible/hosts
-        line: " {{ item.public_ip }} "
-      loop: "{{ ec2.instances }}"
-
-
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
@@ -63,6 +56,7 @@
         exact_count: 1
         count_tag: 
           Name: deploy_server
+          exact_count: 1
       register: ec2
     - name: Add new instance to host group
       add_host:
