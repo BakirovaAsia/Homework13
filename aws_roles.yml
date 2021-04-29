@@ -27,8 +27,8 @@
 
     - name: Show ec2.instances
       debug:
-        msg: "{{ item.public_ip }}  aaaa!!!  {{ item }}"
-      loop: "{{ ec2.instances }}"
+        msg: "{{ ec2.instances }}"
+      
 
     - name: Add new instance to host group
       add_host:
