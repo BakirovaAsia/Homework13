@@ -22,7 +22,6 @@
         dest: "./keys/{{ key_inst }}.pem" 
         mode: 0600
       
-
     - name: Launch instance
       amazon.aws.ec2:
         key_name: "{{ key_inst }}"
@@ -47,6 +46,22 @@
         groupname: build_host
         ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
       loop: "{{ ec2.instances }}"
+
+
+- name: Build-server configuration
+  hosts: build_host
+  become: yes
+  remote_user: ubuntu
+  vars_files: 
+    - vars.yml
+  vars:
+    key_inst: InstanceKey
+    ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
+  
+  roles: 
+    - docker
+    - builder
+
 
 - name: Create a instance for deploying
   hosts: localhost
@@ -85,19 +100,6 @@
         ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
       loop: "{{ ec2.instances }}"    
 
-- name: Build-server configuration
-  hosts: build_host
-  become: yes
-  remote_user: ubuntu
-  vars_files: 
-    - vars.yml
-  vars:
-    key_inst: InstanceKey
-    ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
-  
-  roles: 
-    - docker
-    - builder
 
 - name: Web-server configuration
   hosts: deploy_host
@@ -107,7 +109,6 @@
     key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
     
-
   roles:
     - docker
     - deployer      
