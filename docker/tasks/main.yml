@@ -1,7 +1,6 @@
 ---
 # tasks file for docker
 - name: Ensure docker is install
-  apt: 
-    update_cache: yes
+  pip: 
     name: python-docker
     state: present
