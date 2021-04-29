@@ -31,6 +31,7 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: build_host
+        ansible_ssh_private_key_file: /home/admin/.ssh/id_rsa.pub
       loop: "{{ ec2.instances }}"
 
 - name: Create a instance for deploying
@@ -64,6 +65,7 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: deploy_host
+        ansible_ssh_private_key_file: /home/admin/.ssh/id_rsa.pub
       loop: "{{ ec2.instances }}"    
 
 - name: Build-server configuration
@@ -71,12 +73,7 @@
   become: yes
   vars_files: 
     - vars.yml
-  tasks:
-    - name: Set authorized key taken from file
-      authorized_key:
-        user: admin
-        state: present
-        key: "{{ lookup('file', '/home/admin/.ssh/id_rsa.pub') }}"
+  
   roles: 
     - docker
     - builder
