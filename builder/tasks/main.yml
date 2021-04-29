@@ -1,7 +1,8 @@
 ---
 # tasks file for builder
 - name: Ensure git is install
-  apt: 
+  apt:
+    update_cache: yes 
     name: git
     state: present 
 
