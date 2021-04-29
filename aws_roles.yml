@@ -75,7 +75,7 @@
           Name: deploy_server
           exact_count: 1
         wait: yes
-        wait_timeout: 600
+ 
       register: ec2
 
     - name: Add new instance to host group
@@ -106,6 +106,7 @@
   vars:
     key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
+    
 
   roles:
     - docker
