@@ -3,7 +3,7 @@
 - name: Ensure pip is install
   apt:
     update-cache: yes
-    name: python-pip
+    name: python3-pip
     state: present
 
 - name: Ensure docker is install
