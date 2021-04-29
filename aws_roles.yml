@@ -26,8 +26,7 @@
       register: ec2
 
     - name: Show ec2.instances
-      debug:
-        msg: "{{ item }}"
+      shell: "echo "{{ item }}" "
       loop: "{{ ec2.instances }}"
 
     - name: Add new instance to host group
