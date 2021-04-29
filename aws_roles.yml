@@ -16,11 +16,7 @@
         region: "{{ region }}"
       register: ec2_key
 
-    - name: Save private key
-      copy: 
-        content: "{{ ec2_key.key.private_key }}" 
-        dest: "./keys/{{ key_inst }}.pem" 
-        mode: 0600
+
 
     - name: Launch instance
       amazon.aws.ec2:
