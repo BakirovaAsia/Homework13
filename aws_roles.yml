@@ -23,6 +23,7 @@
         exact_count: 1
         count_tag: 
           Name: build_server
+          exact_count: 1
       register: ec2
 
     - name: Add new instance to /etc/ansible/hosts
