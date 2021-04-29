@@ -7,6 +7,6 @@
     state: present
 
 - name: Ensure docker is install
-  pip: 
+  apt: 
     name: docker
     state: present
