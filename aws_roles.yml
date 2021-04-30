@@ -42,10 +42,6 @@
 
       register: ec2
 
-    - name: Debugging
-      debug:
-        var: ec2.instances
-
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
@@ -53,13 +49,6 @@
         ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
         ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
-
-    - name: Debugging 2
-      debug:
-        var: hosts
-
-
-
 
 - name: Create a instance for deploying
   hosts: localhost
@@ -90,10 +79,6 @@
         wait: yes
       register: ec2
 
-    - name: Debugging
-      debug:
-        var: ec2.instances
-
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
@@ -101,14 +86,6 @@
         ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
         ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
-
-
-
-    - name: Debugging 2
-      debug:
-        var: ec2.instances
-
-
 
 - name: Build-server configuration
   hosts: build_host
