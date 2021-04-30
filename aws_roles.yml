@@ -59,15 +59,6 @@
         var: hosts
 
 
-- name: Build-server configuration
-  hosts: build_host
-  become: yes
-  vars_files:
-    - vars.yml
-
-  roles:
-    - docker
-    - builder
 
 
 - name: Create a instance for deploying
@@ -117,6 +108,17 @@
       debug:
         var: ec2.instances
 
+
+
+- name: Build-server configuration
+  hosts: build_host
+  become: yes
+  vars_files:
+    - vars.yml
+
+  roles:
+    - docker
+    - builder
 
 - name: Web-server configuration
   hosts: deploy_host
