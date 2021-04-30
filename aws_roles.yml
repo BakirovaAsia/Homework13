@@ -51,7 +51,7 @@
 - name: Build-server configuration
   hosts: build_host
   become: yes
-  remote_user: ubuntu
+  remote_user: root
   vars_files: 
     - vars.yml
   vars:
@@ -103,7 +103,7 @@
 - name: Web-server configuration
   hosts: deploy_host
   become: yes
-  remote_user: ubuntu
+  remote_user: root
   vars:
     key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
