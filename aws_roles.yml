@@ -42,7 +42,7 @@
 
     - name: Debugging
       debug:
-        var: ec2.results
+        var: ec2
 
     - name: Add new instance to host group
       add_host:
