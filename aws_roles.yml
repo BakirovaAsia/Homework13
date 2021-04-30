@@ -39,6 +39,7 @@
           Name: build_server
           exact_count: 1
         wait: yes
+
       register: ec2
 
     - name: Debugging
@@ -50,18 +51,19 @@
         hostname: "{{ item.public_ip }}"
         groupname: build_host
         ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
+        ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
+
+    - name: Debugging 2
+      debug:
+        var: build_host
 
 
 - name: Build-server configuration
   hosts: build_host
   become: yes
-  remote_user: ubuntu
   vars_files:
     - vars.yml
-  vars:
-    key_inst: InstanceKey
-    #ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
 
   roles:
     - docker
@@ -93,7 +95,7 @@
           exact_count: 1
         count_tag:
           Name: deploy_server
-        exact_count: 1
+          exact_count: 1
         wait: yes
       register: ec2
 
@@ -101,17 +103,19 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: deploy_host
-        #ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
+        ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
+        ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
+
+    - name: Debugging
+      debug:
+        var: ec2.instances
 
 
 - name: Web-server configuration
   hosts: deploy_host
+
   become: yes
-  remote_user: Ubuntu
-  vars:
-    key_inst: InstanceKey
-    ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
 
   roles:
     - docker
