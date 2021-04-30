@@ -17,12 +17,12 @@
       register: ec2_key
 
     - name: Save private key
-      copy: 
-        content: "{{ ec2_key.key.private_key }}" 
-        dest: "./keys/{{ key_inst }}.pem" 
+      copy:
+        content: "{{ ec2_key.key.private_key }}"
+        dest: "./keys/{{ key_inst }}.pem"
         mode: 0600
       when: ec2_key.changed
-      
+
     - name: Launch instance
       ec2:
         key_name: "{{ key_inst }}"
@@ -32,10 +32,10 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
-        instance_tags: 
+        instance_tags:
           Name: build_server
           exact_count: 1
-        count_tag: 
+        count_tag:
           Name: build_server
           exact_count: 1
         wait: yes
@@ -57,13 +57,13 @@
   hosts: build_host
   become: yes
   remote_user: ubuntu
-  vars_files: 
+  vars_files:
     - vars.yml
   vars:
     key_inst: InstanceKey
     #ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
-  
-  roles: 
+
+  roles:
     - docker
     - builder
 
@@ -88,10 +88,10 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
-        instance_tags: 
+        instance_tags:
           Name: deploy_server
           exact_count: 1
-        count_tag: 
+        count_tag:
           Name: deploy_server
         exact_count: 1
         wait: yes
@@ -101,8 +101,8 @@
       add_host:
         hostname: "{{ item.public_ip }}"
         groupname: deploy_host
-        ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
-      loop: "{{ ec2.instances }}"    
+        #ansible_ssh_private_key_file: ./keys/{{ key_inst }}.pem
+      loop: "{{ ec2.instances }}"
 
 
 - name: Web-server configuration
@@ -112,7 +112,7 @@
   vars:
     key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
-    
+
   roles:
     - docker
-    - deployer      
+    - deployer
