@@ -36,7 +36,7 @@
           exact_count: 1
         count_tag: 
           Name: build_server
-          exact_count: 1
+        exact_count: 1
         wait: yes
       register: ec2
 
@@ -51,7 +51,7 @@
 - name: Build-server configuration
   hosts: build_host
   become: yes
-  remote_user: root
+  remote_user: Ubuntu
   vars_files: 
     - vars.yml
   vars:
@@ -88,7 +88,7 @@
           exact_count: 1
         count_tag: 
           Name: deploy_server
-          exact_count: 1
+        exact_count: 1
         wait: yes
       register: ec2
 
@@ -103,7 +103,7 @@
 - name: Web-server configuration
   hosts: deploy_host
   become: yes
-  remote_user: root
+  remote_user: Ubuntu
   vars:
     key_inst: InstanceKey
     ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
