@@ -50,6 +50,7 @@
         ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
 
+
 - name: Create a instance for deploying
   hosts: localhost
   vars:
@@ -87,6 +88,7 @@
         ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
 
+
 - name: Build-server configuration
   hosts: build_host
   become: yes
@@ -96,6 +98,7 @@
   roles:
     - docker
     - builder
+
 
 - name: Web-server configuration
   hosts: deploy_host
