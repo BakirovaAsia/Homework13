@@ -56,7 +56,7 @@
 
     - name: Debugging 2
       debug:
-        var: build_host
+        var: hosts
 
 
 - name: Build-server configuration
@@ -99,6 +99,10 @@
         wait: yes
       register: ec2
 
+    - name: Debugging
+      debug:
+        var: ec2.instances
+
     - name: Add new instance to host group
       add_host:
         hostname: "{{ item.public_ip }}"
@@ -107,7 +111,9 @@
         ansible_ssh_user: ubuntu
       loop: "{{ ec2.instances }}"
 
-    - name: Debugging
+
+
+    - name: Debugging 2
       debug:
         var: ec2.instances
 
