@@ -4,7 +4,7 @@
   vars:
     keypair: AnsKeyPair
     instance_type: t2.micro
-    security_group: DeploySecGroup
+    security_group: AnsSecGroup
     image: ami-08962a4068733a2b6
     region: us-east-2
     subnet_id: subnet-308dd07c
@@ -67,7 +67,7 @@
   vars:
     keypair: AnsKeyPair
     instance_type: t2.micro
-    security_group: DeploySecGroup
+    security_group: AnsSecGroup
     image: ami-08962a4068733a2b6
     region: us-east-2
     subnet_id: subnet-5bfb4430
