@@ -32,17 +32,18 @@
         region: "{{ region }}"
         vpc_subnet_id: "{{ subnet_id }}"
         assign_public_ip: yes
-        wait: yes
         instance_tags: 
           Name: build_server
+          exact_count: 1
         count_tag: 
           Name: build_server
-        exact_count: 1
+          exact_count: 1
+        wait: yes
       register: ec2
 
     - name: Debugging
       debug:
-        var: ec2
+        var: ec2.instances
 
     - name: Add new instance to host group
       add_host:
@@ -55,12 +56,12 @@
 - name: Build-server configuration
   hosts: build_host
   become: yes
-  remote_user: Ubuntu
+  remote_user: ubuntu
   vars_files: 
     - vars.yml
   vars:
     key_inst: InstanceKey
-    ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
+    #ansible_ssh_private_key_file: "./keys/{{ key_inst }}.pem"
   
   roles: 
     - docker
