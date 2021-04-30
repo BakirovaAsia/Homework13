@@ -33,10 +33,9 @@
         assign_public_ip: yes
         instance_tags: 
           Name: build_server
-        exact_count: 1
         count_tag: 
           Name: build_server
-          exact_count: 1
+        exact_count: 1
         wait: yes
       register: ec2
 
@@ -85,10 +84,9 @@
         assign_public_ip: yes
         instance_tags: 
           Name: deploy_server
-        exact_count: 1
         count_tag: 
           Name: deploy_server
-          exact_count: 1
+        exact_count: 1
         wait: yes
       register: ec2
 
